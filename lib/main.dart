@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'home.dart';
+import 'dart:async';
+import 'my_flutter_app_icons.dart';
 
-void main() => runApp(MaterialApp(
-  home: MyApp(),
-  debugShowCheckedModeBanner: false,
-  theme: ThemeData(),
-));
+void main() => runApp(MaterialApp(home: MyApp(),debugShowCheckedModeBanner: false,));
 
 class MyApp extends StatefulWidget {
   @override
@@ -13,51 +11,71 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var url="https://google.com";
-  TextEditingController textEditingController=TextEditingController();
-  FlutterWebviewPlugin flutterWebviewPlugin=FlutterWebviewPlugin();
-  launchUrl()
-  {
-      setState(() {
-        url=textEditingController.text;
-        flutterWebviewPlugin.reloadUrl(url);
-      });
-  }
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    flutterWebviewPlugin.onStateChanged.listen((WebViewStateChanged wvs)
-    {
-      print(wvs.type);
+    Future.delayed(Duration(
+        seconds: 3
+    ), () {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home(),),);
     }
     );
-
   }
   @override
   Widget build(BuildContext context) {
-    return WebviewScaffold(
-      appBar: AppBar(
-        title:TextField(
-          autofocus: false,
-          textInputAction: TextInputAction.go,
-          controller: textEditingController,
-          cursorColor: Colors.white,
-          cursorWidth: 0.3,
-          onSubmitted: (url)=>launchUrl(),
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: "Enter URL here",
-            hintStyle: TextStyle(color: Colors.white)
-        ),
-        ),
-        actions: <Widget>[
-          IconButton(icon: Icon(Icons.navigate_next), onPressed: ()=>launchUrl())
+    return Scaffold(
+      body: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.blueAccent
+            ),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                flex: 2,
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      CircleAvatar(
+                        backgroundColor: Colors.black12,
+                        radius: 50.0,
+                        child: Icon(
+                          MyFlutterApp.wolframlanguage,
+                          color: Colors.greenAccent,
+                          size: 70.0,
+                        ),
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(top: 10.0,)
+                      ),
+                      Text(
+                          "Skoll Browser",style:TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    CircularProgressIndicator(),
+                    Padding(padding: EdgeInsets.only(top: 20),
+                    ),
+                    Text("Loading to browser",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),)
+                  ],
+                )
+                ,)
+            ],
+          )
         ],
       ),
-      url:url,
-      withZoom: true,
     );
   }
 }
-
