@@ -65,7 +65,7 @@ class _MyAppState extends State<MyApp> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    CircularProgressIndicator(),
+                    CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(Colors.greenAccent),),
                     Padding(padding: EdgeInsets.only(top: 20),
                     ),
                     Text("Loading to browser",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),)
